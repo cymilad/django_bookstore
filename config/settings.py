@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'pages',
+    'books',
     'crispy_forms',  # pip install django-crispy-forms
 
 ]
