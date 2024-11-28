@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
+{#{% load book_tags %}#}
 
 {% block title %}
-	جزئیات کتاب {{ book.title }}
+    جزئیات کتاب {{ book.title }}
 {% endblock %}
 
 {% block content %}
     <h1>{{ book.title }}</h1>
-    <p>{{ book.content }}</p>
+    {#    <p>{{ book.content|to_lower|linebreaks}}</p>#}
+    <p>{{ book.content|linebreaks }}</p>
     <p>{{ book.author }}</p>
     <h4>{{ book.price }}</h4>
+    <a href="{% url 'book_update' book.id %}">
+        <button class="btn btn-info" type="submit">ویرایش</button>
+    </a>
+    <a href="{% url 'book_delete' book.id %}">
+        <button class="btn btn-danger" type="submit">حذف</button>
+    </a>
+    <br>
     <br>
     <a href="{% url 'book_list' %}">لیست همه ی کتاب ها</a>
 {% endblock %}
