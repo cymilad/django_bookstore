@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
     لیست کتاب ها
 {% endblock %}
@@ -14,13 +13,14 @@
                 <div class="card m-2" style="max-width: 45%">
                     <div class="row g-0 h-100" dir="rtl">
                         <div class="col-md-4">
-                            <img src="https://cdn.fidibo.com/phoenixpub/content/dd8c5a32-b8fd-49ee-8b44-db67b0485050/7094ce79-5d7d-42cf-a3c0-dbbec95f83fb.jpg"
-                                 class="img-fluid rounded-start" alt="{{ book.title }}">
+                            {% if book.covers %}
+                            	<img src="{{ book.covers.url }}" class="img-fluid rounded-start" alt="{{ book.title }}">
+                            {% endif %}
                         </div>
                         <div class="col-md-8 h-100">
                             <div class="d-flex flex-column justify-content-between h-100">
                                 <div class="card-body">
-                                    <a href="{% url 'book_detail' book.id %}">
+                                    <a class="text-decoration-none" href="{{ book.get_absolute_url }}">
                                         <h3 class="card-title"><strong>{{ book.title }}</strong></h3>
                                     </a>
                                     <p class="card-text pt-3">{{ book.content|truncatewords:35 }}</p>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             {% endfor %}
-        
+
         </div>
     </div>
 
