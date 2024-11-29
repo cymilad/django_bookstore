@@ -5,17 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Home Page</h1>
-    {% if user.is_authenticated %}
-        <p>Welcome {{ user.username }}</p>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <a href="{% url 'book_list' %}">نمایش محصولات</a>
-            <br>
-            <br>
-            <button class="btn btn-danger" type="submit">logout</button>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign up</a>
-    {% endif %}
+    
+    <div dir="rtl">
+        <h1>خانه اصلی</h1>
+        {% if user.is_authenticated %}
+            <p>خوش آمدید {{ user.username }}</p>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <a class="text-muted text-decoration-none" href="{% url 'book_list' %}">نمایش محصولات</a>
+                <br>
+                <button class="btn btn-danger mt-3" type="submit">خروج</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">ورود</a> | <a href="{% url 'signup' %}">ثبت نام</a>
+        {% endif %}
+    </div>
+    
 {% endblock %}
