@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
 
@@ -15,7 +17,7 @@ class BookListView(generic.ListView):
 #     model = Book
 #     template_name = 'books/book_detail.html'
 
-
+@login_required
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     comments = book.comments.all()
@@ -39,17 +41,26 @@ def book_detail(request, pk):
     return render(request, 'books/book_detail.html', context)
 
 
-class BookCreateView(generic.CreateView):
+class BookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Book
     fields = ['title', 'author', 'content', 'price' , 'covers']
     template_name = 'books/book_create.html'
 
-class BookUpdateView(generic.UpdateView):
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Book
     fields = ['title', 'author', 'content', 'price', 'covers']
     template_name = 'books/book_update.html'
 
-class BookDeleteView(generic.DeleteView):
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+
+
+class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Book
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('book_list') # Redirect to Index page
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user

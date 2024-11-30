@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 class Book(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, default=1, verbose_name='نام کاربری')
     title = models.CharField(max_length=200, verbose_name='عنوان')
     author = models.CharField(max_length=200, verbose_name='نویسنده')
     content = models.TextField(verbose_name='توضیحات')
@@ -22,6 +23,7 @@ class Comment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='نام کتاب', related_name='comments')
     text = models.TextField(verbose_name='متن نظر')
     datetime_created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت نظر')
+    is_active = models.BooleanField(default=True, verbose_name='غیرفعال یا فعال بودن نظر')
 
     def __str__(self):
         return f'{self.user} : {self.text}'
